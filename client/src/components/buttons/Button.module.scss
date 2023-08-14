@@ -1,0 +1,8 @@
+@import "src/styles/index";
+
+
+.button {
+  width: 200px;
+  @include buttons();
+
+}

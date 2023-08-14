@@ -1,0 +1,41 @@
+@import "src/styles/index";
+
+.container {
+  @include center();
+  flex-direction: column;
+
+  h3 {
+    float: left;
+    width: -webkit-fill-available;
+    padding: 20px;
+  }
+
+  Form {
+  @include center();
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  }
+
+  button {
+    @include buttons();
+
+    &:hover {
+      background-color: $primary-color;
+      color: $secondary-color;
+    }
+
+    &.primary-btn {
+      color: $primary-color;
+    
+    }
+    
+    &.secondary-btn {
+    color: $secondary-color;
+    }
+  }
+
+  
+
+}

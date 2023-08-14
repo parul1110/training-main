@@ -1,0 +1,27 @@
+@import "src/styles/index";
+
+.container {
+  @include center();
+  flex-direction: column;
+
+  h3 {
+    float: left;
+    width: -webkit-fill-available;
+    padding: 20px;
+  }
+
+  button {
+    color: $primary-color;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    padding: 10px;
+    border: 1px solid white;
+    border-radius: 5px;
+    font-family: $font-family;
+    width: 322px;
+    font-size: 16px;
+    margin-left: 20px;
+  }
+
+}

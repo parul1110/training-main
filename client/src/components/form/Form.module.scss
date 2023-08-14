@@ -1,0 +1,40 @@
+@import "src/styles/index";
+
+.form {
+    width: 100%;
+
+    label {
+        float: left;
+    }
+
+    .select_option {
+        width: 100%;
+    }
+
+    select {
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid white;
+        border-radius: 5px;
+        font-family: $font-family;
+        width: 322px;
+        font-size: 16px;
+        margin-left: 15%;
+
+         .option {
+            padding: 10px;
+            border: 1px solid white;
+            border-radius: 5px;
+            font-size: 16px;
+
+         }
+      }
+
+      .button {
+        width: 50%;
+        display: flex;
+        justify-content: center;
+
+     }
+
+}

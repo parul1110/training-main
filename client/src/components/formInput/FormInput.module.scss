@@ -1,0 +1,23 @@
+@import "src/styles/index";
+
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  margin-bottom: 10px;
+  justify-content: inherit;
+
+
+  input {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid white;
+    border-radius: 5px;
+    font-family: $font-family;
+    width: 300px;
+    font-size: 16px;
+    margin-left: 20px;
+  }
+
+  
+}

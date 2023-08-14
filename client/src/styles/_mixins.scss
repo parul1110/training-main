@@ -1,0 +1,18 @@
+@mixin center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin buttons() {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  border: 1px solid white;
+  border-radius: 5px;
+  font-family: $font-family;
+  width: 322px;
+  font-size: 16px;
+  margin-left: 20px;
+  flex-direction: row;
+}
