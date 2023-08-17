@@ -1,7 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 require('dotenv').config();
-
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
@@ -18,7 +18,7 @@ app.use(session({
   saveUninitialized: true,
 }));
 app.use(express.json());
-
+app.use(cors());
 app.get('/health', (req, res) => {
   res.send('This is a health check of server');
 });

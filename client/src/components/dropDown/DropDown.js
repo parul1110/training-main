@@ -5,8 +5,8 @@ import { PAGE_ROUTES } from "../../utils/contants";
 import { useNavigate } from "react-router-dom";
 
 export default function DropDown(){
-    const user = useSelector(state=>state.app.userInfo);
     const navigate = useNavigate();
+    const user = useSelector(state=>state.app.userInfo);
     const nav = () =>{
         navigate(PAGE_ROUTES.LOGIN);
     }

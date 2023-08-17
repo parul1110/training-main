@@ -14,14 +14,13 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  
   const navigateToDestination = (state) => {
     navigate(PAGE_ROUTES.ADD, {state})
     dispatch(addUser(state));
 }
-
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
 
   const login = () => {
     const body = {

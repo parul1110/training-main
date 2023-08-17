@@ -5,7 +5,7 @@ export default class ExampleService extends AxiosBase {
 
   addData = async (body) => {
     try {
-      const response = await this.requests.post(`${API_ROUTES.EXAMPLE.ADD_DATA}`, body);
+      const response = await this.requests.post(`${API_ROUTES.EMPLOYEE.GET_EMP}`, body);
       return response;
     } catch (err) {
       throw err
@@ -14,7 +14,7 @@ export default class ExampleService extends AxiosBase {
 
   getData = async (params)=> {
     try {
-      const response = await this.requests.get(this.serializeParams(API_ROUTES.EXAMPLE.GET_DATA,params));
+      const response = await this.requests.get(this.serializeParams(API_ROUTES.EMPLOYEE.GET_EMP,params));
       return response;
     } catch (err) {
       throw err
@@ -24,7 +24,7 @@ export default class ExampleService extends AxiosBase {
   delData = async (params)=> {
     try {
       const id = params.toString();
-      const response = await this.requests.delete(`${API_ROUTES.EXAMPLE.GET_EMP}` + id);
+      const response = await this.requests.delete(`${API_ROUTES.EMPLOYEE.UPD_EMP}` + id);
       return response;
     } catch (err) {
       throw err
@@ -34,7 +34,7 @@ export default class ExampleService extends AxiosBase {
   getEmp = async(params)=>{
     try {
       const id = params.toString();
-      const response = await this.requests.get(this.serializeParams(API_ROUTES.EXAMPLE.GET_EMP + id, params));
+      const response = await this.requests.get(this.serializeParams(API_ROUTES.EMPLOYEE.UPD_EMP + id, params));
       return response;
     } catch (err) {
       throw err
@@ -43,7 +43,7 @@ export default class ExampleService extends AxiosBase {
 
   updateEmp = async(id, params)=>{
     try {
-      const response = await this.requests.put(`${API_ROUTES.EXAMPLE.GET_EMP}` + id, params);
+      const response = await this.requests.put(`${API_ROUTES.EMPLOYEE.UPD_EMP}` + id, params);
       return response;
     } catch (err) {
       throw err

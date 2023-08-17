@@ -5,24 +5,34 @@ import { PAGE_ROUTES, RESOURCE } from "../../utils/contants";
 import styles from './AddEmployee.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {addEmployee, emptyForm, updateEmployee} from '../../services/storage/empSlice';
+import { emptyForm } from '../../services/storage/empSlice';
 import ExampleService from '../../services/api/exampleService';
 
+const initialInputs = [
+    {caption: "First Name", type: "text", placeHolder: "First Name", name: "firstName", value: ""},
+    {caption: "Last Name", type: "text", placeHolder: "Last Name", name: "lastName", value: ""},
+    {caption: "Email", type: "email", placeHolder: "Enter Email...", name: "email", value: ""},
+    {caption: "Phone no", type: "text", placeHolder: "Phone no", name: "phoneNo", value: ""},
+];
+
 export default function AddEmployee(){
+    const service = new ExampleService();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const buttons = [
         {type: "submit", cssVal: "secondary-btn", text: "DISCARD", action: handleDiscard},
-        {type: "submit", cssVal: "primary-btn", text: "SUBMIT", action: handleSubmit}
+        {type: "submit", cssVal: "primary-btn", text: "SUBMIT"}
     ];
-    const prefilledForm = useSelector(state=>state.app.formData);
+
     const isEdit = useRef(false);
-    const service = new ExampleService();
-    const [inputs, setInput] = useState([
-    //let inputs = [
-        {name: "First Name", type: "text", placeHolder: "First Name", caption: "firstName", value: ""},
-        {name: "Last Name", type: "text", placeHolder: "Last Name", caption: "lastName", value: ""},
-        {name: "Email", type: "email", placeHolder: "Enter Email...", caption: "email", value: ""},
-        {name: "Phone no", type: "text", placeHolder: "Phone no", caption: "phoneNo", value: ""},
-    ]);
+    const formData = useRef();
+    const [inputs, setInput] = useState(initialInputs);
+    const [showSubmitModal, setSubmitModal] = useState(false);
+    const [showDiscardModal, setDiscardModal] = useState(false);
+    
+    const prefilledForm = useSelector(state=>state.app.formData);
+
     useEffect(()=>{
         if(prefilledForm && prefilledForm.length>0){
             isEdit.current = prefilledForm;
@@ -32,8 +42,9 @@ export default function AddEmployee(){
             // })
             var promise = service.getEmp(prefilledForm);
             promise.then((Response)=>{
+                formData.current = Response;
                 let a = inputs.map((i)=>{
-                        i.value= Response[i.caption];
+                        i.value= Response[i.name];
                         return i;
                     })
                 setInput(a);
@@ -47,13 +58,16 @@ export default function AddEmployee(){
         }
     }, [prefilledForm]);
 
-    const [showSubmitModal, setSubmitModal] = useState(false);
-    const [showDiscardModal, setDiscardModal] = useState(false);
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+    function handleSubmit(form){
+        if(formData.current){
+            Object.keys(form).map((keys, index)=>{
+                formData.current[keys] = form[keys];
+            });
+            delete formData.current["__v"];
+        }else{
+            formData.current = form;
+        }
 
-    function handleSubmit(e){
-        e.preventDefault();
         setSubmitModal(true);
     }
 
@@ -78,25 +92,25 @@ export default function AddEmployee(){
     function handleSubmitYes(e){
         e.preventDefault();
         setSubmitModal(false);
-        let a = {};
-        inputs.map((i)=>{
-            let ele = document.getElementById("login").elements[i.name].value;    
-            if(ele===""){
-                console.log("Complete the form");
-                setSubmitModal(false);
-                return;
-            }
-            return a[i.caption] =  ele;
-        });
-        let ele = document.getElementById("login").elements.Domain.value;   
-        a["domain"]=ele;
+        // let a = {};
+        // inputs.map((i)=>{
+        //     let ele = document.getElementById("login").elements[i.name].value;    
+        //     if(ele===""){
+        //         console.log("Complete the form");
+        //         setSubmitModal(false);
+        //         return;
+        //     }
+        //     return a[i.caption] =  ele;
+        // });
+        // let ele = document.getElementById("login").elements.Domain.value;   
+        // a["domain"]=ele;
         if(isEdit.current){
             dispatch(emptyForm());
-            service.updateEmp(isEdit.current, JSON.stringify(a));
+            service.updateEmp(isEdit.current, JSON.stringify(formData.current));
             //dispatch(updateEmployee(a));
         }else{
             //dispatch(addEmployee(a));
-            service.addData(JSON.stringify(a));
+            service.addData(JSON.stringify(formData.current));
         }
         isEdit.current = false;
         navigate(PAGE_ROUTES.LIST);

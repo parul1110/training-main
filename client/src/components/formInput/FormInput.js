@@ -1,17 +1,18 @@
 import styles from './FormInput.module.scss';
 
-export default function FormInput({props, disable}){
+export default function FormInput({props, disable, onChange}){
+const { type, name, value, placeHolder, className, id } = props;
 
 return(<>
         <div className={"form-group " + styles.container}>
-            <input type={props.type} 
-                className={props.className ? "form-control " + props.className : "form-control"} 
-                id={props.id} 
-                name={props.name}
+            <input type={type} 
+                className={className ? "form-control " + className : "form-control"} 
+                id={id} 
+                name={name}
                 disabled = {disable}
-                placeholder={props.placeHolder} 
-                onChange = {e=>e.target.value}
-                defaultValue = {props.value} />
+                placeholder={placeHolder} 
+                onChange = {onChange}
+                defaultValue = {value} />
         </div>
     </>);
 }

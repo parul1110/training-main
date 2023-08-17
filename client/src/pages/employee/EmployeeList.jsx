@@ -6,15 +6,31 @@ import { useNavigate } from "react-router-dom";
 import DropDown from "../../components/dropDown/DropDown";
 import { useDispatch, useSelector } from "react-redux";
 import EmpRow from "../../components/row/EmpRow";
-import { removeEmp, setForm } from "../../services/storage/empSlice";
+import { setForm } from "../../services/storage/empSlice";
 import ExampleService from "../../services/api/exampleService";
 
 export default function EmployeeList(){
+    const service = new ExampleService();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     //const list = useSelector(state=>state.app.listEmp);
     const [showDropDown, setDropDown] = useState(false);
-    const dispatch = useDispatch();
-    const service = new ExampleService();
+    const [empList, setEmp] = useState();
+
+    useEffect(()=>{
+        getEmployees();
+    }, []);
+
+    function getEmployees() {
+        var promise = service.getData();
+        promise.then((response)=>{
+        var emp = response.map((l)=>{
+            return <EmpRow data={l} key={l["_id"]} onEdit={onEdit} onDelete={onDelete} />;
+        });
+        setEmp(emp);
+    });
+    }
 
     const onEdit = (id) =>{
         dispatch(setForm(id));
@@ -23,15 +39,9 @@ export default function EmployeeList(){
     const onDelete = (id) =>{
         //dispatch(removeEmp(id));
         service.delData(id);
+                getEmployees();
+
     }
-    const [empList, setEmp] = useState();
-    var promise = service.getData();
-    promise.then((response)=>{
-        var emp = response.map((l)=>{
-            return <EmpRow data={l} key={l["_id"]} onEdit={onEdit} onDelete={onDelete} />;
-        });
-        setEmp(emp);
-    });
 
     const dropDown = () => {
         let show = showDropDown;

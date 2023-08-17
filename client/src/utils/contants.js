@@ -8,13 +8,13 @@ const PAGE_ROUTES = {
 
 const API_ROUTES = {
   BASE_URL : process.env.REACT_APP_BACKEND_API_URL,
+  EMPLOYEE: {
+    GET_EMP: '/employees',
+    UPD_EMP: '/employees/',
+  },
   EXAMPLE: {
     GET_DATA : '/employees',
-    //GET_DATA : 'example/get',
     ADD_DATA : '/employees', 
-    //ADD_DATA : 'example/post',
-    DELETE_DATA : '/employees/', 
-    GET_EMP: '/employees/',
 
   }
 
