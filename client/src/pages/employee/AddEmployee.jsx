@@ -5,7 +5,7 @@ import { PAGE_ROUTES, RESOURCE } from "../../utils/contants";
 import styles from './AddEmployee.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { emptyForm } from '../../services/storage/empSlice';
+import {addEmployee, emptyForm, updateEmployee} from '../../services/storage/empSlice';
 import ExampleService from '../../services/api/exampleService';
 
 const initialInputs = [
@@ -24,13 +24,12 @@ export default function AddEmployee(){
         {type: "submit", cssVal: "secondary-btn", text: "DISCARD", action: handleDiscard},
         {type: "submit", cssVal: "primary-btn", text: "SUBMIT"}
     ];
-
     const isEdit = useRef(false);
     const formData = useRef();
     const [inputs, setInput] = useState(initialInputs);
     const [showSubmitModal, setSubmitModal] = useState(false);
     const [showDiscardModal, setDiscardModal] = useState(false);
-    
+
     const prefilledForm = useSelector(state=>state.app.formData);
 
     useEffect(()=>{
@@ -64,10 +63,11 @@ export default function AddEmployee(){
                 formData.current[keys] = form[keys];
             });
             delete formData.current["__v"];
+            delete formData.current["_id"];
+
         }else{
             formData.current = form;
         }
-
         setSubmitModal(true);
     }
 
@@ -92,18 +92,6 @@ export default function AddEmployee(){
     function handleSubmitYes(e){
         e.preventDefault();
         setSubmitModal(false);
-        // let a = {};
-        // inputs.map((i)=>{
-        //     let ele = document.getElementById("login").elements[i.name].value;    
-        //     if(ele===""){
-        //         console.log("Complete the form");
-        //         setSubmitModal(false);
-        //         return;
-        //     }
-        //     return a[i.caption] =  ele;
-        // });
-        // let ele = document.getElementById("login").elements.Domain.value;   
-        // a["domain"]=ele;
         if(isEdit.current){
             dispatch(emptyForm());
             service.updateEmp(isEdit.current, JSON.stringify(formData.current));
