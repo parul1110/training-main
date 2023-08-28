@@ -10,6 +10,7 @@ export class AxiosBase {
       'Content-Type': 'application/json',
       withCredentials: true,
       credentials: 'same-origin',
+      'Authorization' : `Bearer ${localStorage.token}`
     },
   });
 

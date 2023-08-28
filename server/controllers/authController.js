@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 exports.login = (req, res) => {
   const { email, password } = req.body;
 
-  if (email === 'testUser@tftus.com' && password === 'test@123') {
+  if (email === 'parul.vibes@gmail.com' && password === 'a') {
     authService.createSession(req, email);
     const accessToken = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '7d' });
     res.status(200).json({ message: 'Login successful', accessToken });

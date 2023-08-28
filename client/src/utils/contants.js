@@ -12,6 +12,10 @@ const API_ROUTES = {
     GET_EMP: '/employees',
     UPD_EMP: '/employees/',
   },
+  AUTH: {
+    LOGIN: '/auth/login',
+    LOGOUT: '/auth/logout'
+  },
   EXAMPLE: {
     GET_DATA : '/employees',
     ADD_DATA : '/employees', 

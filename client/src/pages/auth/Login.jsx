@@ -3,28 +3,38 @@ import styles from './Login.module.scss';
 import Button from '../../components/buttons/Button';
 import Input from '../../components/inputs/Input';
 
-import ExampleService from '../../services/api/exampleService';
+import AuthService from '../../services/api/authService';
 import { useNavigate } from 'react-router-dom';
 import { PAGE_ROUTES } from '../../utils/contants';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../../services/storage/empSlice';
 
 const Login = () => {
-  const service = new ExampleService();
+  const service = new AuthService();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState('');
+  const [email, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  
+  const [error, showError] = useState(false);
+
   const navigateToDestination = (state) => {
-    navigate(PAGE_ROUTES.ADD, {state})
-    dispatch(addUser(state));
+    var promise = service.login(state);
+    promise.then((Response)=>{
+        if(Response && Response.status===401){
+          showError(true);
+        }else{
+          localStorage.setItem('token', Response.accessToken);
+          navigate(PAGE_ROUTES.ADD, {state})
+          dispatch(addUser(state));
+        }
+    });
+
 }
 
   const login = () => {
     const body = {
-      username, password
+      email, password
     }
     navigateToDestination(body)
   }
@@ -35,8 +45,8 @@ const Login = () => {
       <Input
         label="Username"
         type="text"
-        name="username"
-        value = {username} 
+        name="email"
+        value = {email} 
         onChange={(e)=>setUsername(e.target.value)} 
         required
         placeholder = "USER ID"
@@ -53,6 +63,7 @@ const Login = () => {
         required
         className='input'
       />
+      {error && <div className="error">Login Failed!</div>}
       <Button className='btn' onClick = {login} >Login</Button>
     </div>
   );

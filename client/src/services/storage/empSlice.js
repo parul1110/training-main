@@ -1,4 +1,3 @@
-
 import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
@@ -7,7 +6,8 @@ const initialState = {
     {"id": 1, "First Name": "a", "Last Name": "b", "Email": "ab@gmail.com", "Phone no": "253674", "Domain": "Testing"},
     {"id": 2, "First Name": "c", "Last Name": "d", "Email": "cd@gmail.com", "Phone no": "266774", "Domain": "Development"}
   ],
-  formData: []
+  formData: [],
+  isLoggedIn: false
 }
 let id = 3;
 export const empSlice = createSlice({
@@ -16,6 +16,7 @@ export const empSlice = createSlice({
   reducers:{
         addUser: (state, action) => {
             state.userInfo = (action.payload);
+            state.isLoggedIn = true;
         },
         addEmployee: (state, action) => {
           action.payload.id = id++;
@@ -39,9 +40,12 @@ export const empSlice = createSlice({
               return l;
             }
           })
+        },
+        logout: (state, action) => {
+          state.isLoggedIn = false;
         }
       }
 })
 
-export const { addUser, addEmployee, removeEmp, setForm, emptyForm, updateEmployee } = empSlice.actions;
+export const { addUser, addEmployee, removeEmp, setForm, emptyForm, updateEmployee, logout } = empSlice.actions;
 export default empSlice.reducer;
